@@ -16,6 +16,9 @@ onready var gravity = 2.0*jump_height / pow(time_to_peak, 2.0) # hop_height?
 onready var jump_speed = gravity * time_to_peak
 onready var hop_speed = jump_speed * (hop_height / jump_height)
 
+var x_axis := 0.0
+var y_axis := 0.0
+
 var target_velocity: Vector3 = Vector3.ZERO
 var velocity: Vector3 = Vector3.ZERO
 var look_vector: Vector3 = Vector3.FORWARD
@@ -47,19 +50,19 @@ func _process(delta):
 
 	camera_control(delta)
 
+
 func camera_control(delta):
 	
 	if !camera:
 		return
 		
-	if Input.is_action_pressed("camera_left"):
-		var rt = camera.translation - self.translation
-		rt = rt.rotated(Vector3.UP, -delta)
-		camera.translation = self.translation + rt
+	var x_axis_control = float(Input.is_action_pressed("camera_right")) - float(Input.is_action_pressed("camera_left"))
+	
+	x_axis = lerp(x_axis, x_axis_control, 4.0 * delta)
 		
-	if Input.is_action_pressed("camera_right"):
+	if x_axis != 0.0:
 		var rt = camera.translation - self.translation
-		rt = rt.rotated(Vector3.UP, delta)
+		rt = rt.rotated(Vector3.UP, -delta * x_axis)
 		camera.translation = self.translation + rt
 		
 	camera.look_at(self.translation + Vector3.UP*2.0, Vector3.UP)
@@ -69,14 +72,13 @@ func camera_control(delta):
 	camera.translation.y = lerp(camera.translation.y, self.translation.y + camera.vector.y, camera.y_factor * delta)
 	camera.translation = Utils.assign_zx(camera.translation, Utils.zx(self.translation) + camera_zx)
 	
-	if Input.is_action_pressed("camera_up"):
+	var y_axis_control = float(Input.is_action_pressed("camera_up")) - float(Input.is_action_pressed("camera_down"))
+	
+	y_axis = lerp(y_axis, y_axis_control, 4.0 * delta)
+	
+	if y_axis != 0.0:
 		var rt = camera.translation - self.translation
-		rt = rt.rotated(Vector3.RIGHT.rotated(Vector3.UP, deg2rad(camera.rotation_degrees.y)), -delta) # delta?
-		camera.translation = self.translation + rt
-		
-	if Input.is_action_pressed("camera_down"):
-		var rt = camera.translation - self.translation
-		rt = rt.rotated(Vector3.RIGHT.rotated(Vector3.UP, deg2rad(camera.rotation_degrees.y)), delta) # delta?
+		rt = rt.rotated(Vector3.RIGHT.rotated(Vector3.UP, deg2rad(camera.rotation_degrees.y)), y_axis * delta) # delta?
 		camera.translation = self.translation + rt
 	
 	
