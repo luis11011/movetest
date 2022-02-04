@@ -6,7 +6,7 @@ export(float) var time_to_peak = 0.6 # seconds
 export(float) var jump_height = 6.0 # units
 export(float) var hop_height = 4.0 # units
 
-export(NodePath) var camera_path: NodePath
+export(NodePath) var camera_path: NodePath = "../PlayerCamera"
 onready var camera: PlayerCamera = get_node(camera_path) if camera_path else null
 
 export var run_acceleration = 3.0

@@ -16,7 +16,7 @@ jump_height = 6.2
 hop_height = 4.2
 camera_path = NodePath("../Camera")
 
-[node name="Camera" parent="." instance=ExtResource( 3 )]
+[node name="PlayerCamera" parent="." instance=ExtResource( 3 )]
 transform = Transform( -1, 4.37114e-08, -7.57103e-08, 0, 0.866025, 0.5, 8.74228e-08, 0.5, -0.866025, 0, 4, -6.9282 )
 current = true
 distance = 8.0
