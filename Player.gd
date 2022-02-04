@@ -44,8 +44,6 @@ func _process(delta):
 		
 	if target_velocity.length_squared() > 0.0:
 		target_velocity = target_velocity.normalized() * 10.0
-		
-	print(self.translation.y)
 
 	camera_control(delta)
 
