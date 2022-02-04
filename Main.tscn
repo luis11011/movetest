@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://icon.png" type="Texture" id=2]
+[ext_resource path="res://PlayerCamera.tscn" type="PackedScene" id=3]
 
 [sub_resource type="BoxShape" id=1]
 
@@ -11,17 +12,60 @@ albedo_texture = ExtResource( 2 )
 [node name="Main" type="Spatial"]
 
 [node name="Player" parent="." instance=ExtResource( 1 )]
+jump_height = 6.2
+hop_height = 4.2
 camera_path = NodePath("../Camera")
 
-[node name="Camera" type="Camera" parent="."]
-transform = Transform( 0.974605, 0.0579575, -0.2163, 0, 0.965926, 0.258819, 0.223931, -0.252246, 0.941396, 0, 2.5, 5 )
-fov = 75.0
+[node name="Camera" parent="." instance=ExtResource( 3 )]
+transform = Transform( -1, 4.37114e-08, -7.57103e-08, 0, 0.866025, 0.5, 8.74228e-08, 0.5, -0.866025, 0, 4, -6.9282 )
+current = true
+distance = 8.0
+angle = 30.0
+
+[node name="StaticBody2" type="StaticBody" parent="."]
+transform = Transform( 10, 0, 0, 0, 1, 0, 0, 0, 10, 0, 3, 20 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape" type="CollisionShape" parent="StaticBody2"]
+shape = SubResource( 1 )
+
+[node name="CSGBox" type="CSGBox" parent="StaticBody2"]
+material = SubResource( 2 )
 
 [node name="StaticBody" type="StaticBody" parent="."]
-transform = Transform( 10, 0, 0, 0, 1, 0, 0, 0, 10, 0, -2.5, 0 )
+transform = Transform( 10, 0, 0, 0, 1, 0, 0, 0, 10, 0, -1, 0 )
+__meta__ = {
+"_edit_group_": true
+}
 
 [node name="CollisionShape" type="CollisionShape" parent="StaticBody"]
 shape = SubResource( 1 )
 
 [node name="CSGBox" type="CSGBox" parent="StaticBody"]
+material = SubResource( 2 )
+
+[node name="StaticBody3" type="StaticBody" parent="."]
+transform = Transform( 10, 0, 0, 0, 1, 0, 0, 0, 10, 20, 7, 20 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape" type="CollisionShape" parent="StaticBody3"]
+shape = SubResource( 1 )
+
+[node name="CSGBox" type="CSGBox" parent="StaticBody3"]
+material = SubResource( 2 )
+
+[node name="StaticBody4" type="StaticBody" parent="."]
+transform = Transform( 10, 0, 0, 0, 1, 0, 0, 0, 10, 20, 11, 0 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape" type="CollisionShape" parent="StaticBody4"]
+shape = SubResource( 1 )
+
+[node name="CSGBox" type="CSGBox" parent="StaticBody4"]
 material = SubResource( 2 )

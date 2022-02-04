@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://PlayerCamera.gd" type="Script" id=1]
+
+[node name="PlayerCamera" type="Camera"]
+transform = Transform( 0.974605, 0.0579575, -0.2163, 0, 0.965926, 0.258819, 0.223931, -0.252246, 0.941396, 0, 0.435779, -4.98097 )
+fov = 75.0
+script = ExtResource( 1 )
+distance = 5.0
+angle = 5.0
