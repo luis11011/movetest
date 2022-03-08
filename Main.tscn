@@ -18,6 +18,7 @@ hop_height = 4.4
 [node name="PlayerCamera" parent="." instance=ExtResource( 3 )]
 transform = Transform( -1, 4.37114e-08, -7.57103e-08, 0, 0.866025, 0.5, 8.74228e-08, 0.5, -0.866025, 0, 4, -6.9282 )
 current = true
+y_factor = 8.0
 distance = 8.0
 angle = 30.0
 

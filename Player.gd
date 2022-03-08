@@ -1,6 +1,10 @@
 extends KinematicBody
 
-export(float) var player_speed: float = 10.0
+const DEADZONE_IN_VALUE = 0.05 * 0.05
+const DEADZONE_OUT_VALUE = 0.05 * 0.05
+
+export(float) var player_speed: float = 20.0
+var player_speed_squared: float = player_speed * player_speed
 
 export(float) var time_to_peak = 0.6 # seconds
 export(float) var jump_height = 6.0 # units
@@ -21,19 +25,10 @@ var velocity: Vector3 = Vector3.ZERO
 var look_vector: Vector3 = Vector3.FORWARD
 
 func _process(delta):
-	target_velocity = Vector3.ZERO
 	
-	if Input.is_action_pressed("player_forward"):
-		target_velocity.z -= 1.0
-	
-	if Input.is_action_pressed("player_back"):
-		target_velocity.z += 1.0
-	
-	if Input.is_action_pressed("player_left"):
-		target_velocity.x -= 1.0
-
-	if Input.is_action_pressed("player_right"):
-		target_velocity.x += 1.0
+	target_velocity.x = Input.get_action_strength("player_right") - Input.get_action_strength("player_left")
+	target_velocity.y = 0.0;
+	target_velocity.z = Input.get_action_strength("player_back") - Input.get_action_strength("player_forward")
 		
 	if Input.is_action_just_pressed("ui_accept") and is_on_floor():
 		velocity.y = jump_speed
@@ -41,9 +36,13 @@ func _process(delta):
 	if Input.is_action_just_released("ui_accept") and velocity.y > hop_speed:
 		velocity.y = hop_speed
 		
-		
-	if target_velocity.length_squared() > 0.0:
-		target_velocity = target_velocity.normalized() * 10.0
+	
+	# clamp the target velocity to the max speed
+	if target_velocity.length_squared() > DEADZONE_IN_VALUE: # deadzone in
+		target_velocity = (target_velocity * (player_speed + 1.0))
+		if target_velocity.length_squared() > player_speed_squared + DEADZONE_OUT_VALUE: # deadzone out
+			target_velocity = target_velocity.normalized() * player_speed
+	
 
 	if camera:
 		camera.control(delta, self)	

@@ -3,7 +3,7 @@ tool
 class_name PlayerCamera
 extends Camera
 
-export(float) var y_factor: float = 3.5
+export(float) var y_factor: float = 10.0
 export(float) var distance = 3.0 setget set_distance
 export(float) var angle = -15.0 setget set_angle
 
@@ -32,8 +32,8 @@ func _ready():
 	update_vector()
 
 func control(delta, player):
-		
-	var x_axis_control = float(Input.is_action_pressed("camera_right")) - float(Input.is_action_pressed("camera_left"))
+	
+	var x_axis_control = Input.get_action_strength("camera_right") - Input.get_action_strength("camera_left")
 	
 	x_axis = lerp(x_axis, x_axis_control, 4.0 * delta)
 		
@@ -49,7 +49,7 @@ func control(delta, player):
 	translation.y = lerp(translation.y, player.translation.y + vector.y, y_factor * delta)
 	translation = Utils.assign_zx(translation, Utils.zx(player.translation) + camera_zx)
 	
-	var y_axis_control = float(Input.is_action_pressed("camera_up")) - float(Input.is_action_pressed("camera_down"))
+	var y_axis_control = Input.get_action_strength("camera_up") - Input.get_action_strength("camera_down")
 	
 	y_axis = lerp(y_axis, y_axis_control, 4.0 * delta)
 	
